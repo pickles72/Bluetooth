@@ -5,6 +5,7 @@
 # author: Michael Fruhnert, Summer 2016
 #import bluetooth
 from os import remove, makedirs
+from uuid import getnode
 from os.path import exists, dirname
 import subprocess as sp
 import datetime
@@ -193,8 +194,8 @@ def btWrite(err, xCoor, yCoor):
     code = b'\x0A\x00\x80\x09\x00\x06' # same metadata (see comment above)
     for i in vals:
         code += i.to_bytes(2, byteorder = 'little', signed = True)
-    #btChannel.send(code)
-    #documentConnection('sent', vals)
+    btChannel.send(code)
+    documentConnection('sent', vals)
 
     return code
 
@@ -233,4 +234,17 @@ def cleanUpConnection():
 def findPi(teamName):
     piName = teamName + "pi"
     return findDevice(piName)
+
+def printMac():
+    mac = getnode()
+
+    hex_mac = iter(hex(mac)[2:].zfill(12))
+
+    friendly_mac = ":".join(i + next(hex_mac) for i in hex_mac)
+
+    print("Computer MAC Address: {}\n".format(friendly_mac))
+
+    input("Press Enter to continue...")
+
+    return
 
