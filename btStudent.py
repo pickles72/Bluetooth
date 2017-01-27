@@ -95,7 +95,15 @@ def setMAC():
         else:
             return
 
+def printDevices():
+    deviceList = bluetooth.discover_devices()
 
+    for device in deviceList:
+        print(device)
+        if bluetooth.lookup_name(device) != None:
+            print(bluetooth.lookup_name(device))
+
+    return
 
 
 
